@@ -1,0 +1,10 @@
+.side-marked,
+.side-marked:hover {
+  background-color: #5059d6 !important;
+  color: white !important;
+}
+
+.child-marked,
+.child-marked:hover {
+  color: #5059d6 !important;
+}
