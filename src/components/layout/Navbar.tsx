@@ -140,7 +140,7 @@ const Navbar = () => {
           <img className="w-20 h-10 md:w-32 md:h-16" src={logo} alt="" />
         </NavLink>
       </div>
-      <div className="flex items-center gap-1 lg:gap-5">
+      <div className="flex items-center gap-2 md:gap-5">
         <div className="hidden lg:flex gap-8 items-center font-medium">
           {navLinks}
         </div>
@@ -152,7 +152,7 @@ const Navbar = () => {
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-48 md:w-56 bg-slate-50 p-5 shadow-sm border my-3 md:my-6 mx-1">
+            <DropdownMenuContent className="w-48 md:w-56 z-50 bg-slate-50 p-5 shadow-sm border my-3 md:my-6 mx-1">
               <DropdownMenuSeparator />
               <DropdownMenuGroup>{menuItems}</DropdownMenuGroup>
             </DropdownMenuContent>
@@ -167,7 +167,7 @@ const Navbar = () => {
                 </Button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="w-48 md:w-56 bg-slate-50 p-4 shadow-sm border my-3 md:my-6 mx-1">
+              <DropdownMenuContent className="w-48 md:w-56 bg-slate-50 z-50 p-4 shadow-sm border my-3 md:my-6 mx-1">
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>{userMenu}</DropdownMenuGroup>
               </DropdownMenuContent>

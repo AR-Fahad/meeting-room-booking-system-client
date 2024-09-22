@@ -17,6 +17,7 @@ const baseApi = createApi({
     },
   }),
   endpoints: () => ({}),
+  tagTypes: ["rooms"],
 });
 
 export default baseApi;

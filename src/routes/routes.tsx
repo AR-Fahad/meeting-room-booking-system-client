@@ -13,6 +13,7 @@ import MyBookings from "@/pages/Dashboard/User/MyBookings";
 import ErrorPage from "@/pages/Error Page/ErrorPage";
 import Home from "@/pages/Home/Home";
 import Login from "@/pages/Login/Login";
+import MRoomDetails from "@/pages/Meeting Room Details/MRoomDetails";
 import MeetingRooms from "@/pages/Meeting Rooms/MeetingRooms";
 import Register from "@/pages/Register/Register";
 import ProtectedRoutes from "@/Protected Routes/ProtectedRoutes";
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "meeting-rooms",
         element: <MeetingRooms />,
+      },
+      {
+        path: "meeting-rooms/:id",
+        element: <MRoomDetails />,
       },
       {
         path: "about-us",

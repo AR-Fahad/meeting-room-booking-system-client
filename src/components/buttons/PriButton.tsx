@@ -10,7 +10,7 @@ type TButtonProps = {
 const PriButton = ({ children, onClick, disabled, w }: TButtonProps) => {
   return (
     <Button
-      className={`bg-[#5059d6] text-white hover:bg-[#5059d6] hover:bg-opacity-95 h-8 md:h-9 disabled:bg-opacity-90 ${
+      className={`bg-priColor text-white hover:bg-priColor hover:bg-opacity-95 h-8 md:h-9 disabled:bg-opacity-90 ${
         w ? "w-full" : ""
       }`}
       onClick={onClick}
