@@ -55,11 +55,13 @@ const FilterForm = ({
   }, [showFilters]);
 
   return (
-    <div>
+    <div className="md:flex-1">
       {/* Filter Button - Visible on small devices */}
       <div>
         <Button
-          className="h-8 md:h-9"
+          className={`h-8 md:h-9 hover:text-priColor ${
+            showFilters && "text-priColor"
+          }`}
           variant="ghost"
           onClick={toggleFilters}
           ref={buttonRef}
@@ -88,7 +90,7 @@ const FilterForm = ({
             id="sort"
             defaultValue=""
             {...methods.register("sort")}
-            className="mt-1 block w-full px-3 py-1 md:py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#5059d6] focus:border-[#5059d6] focus:outline-none text-sm md:text-base"
+            className="mt-1 block w-full px-3 py-1 md:py-2 border-gray-300 rounded-md shadow-sm focus:ring-priColor focus:border-priColor border-[1.5px] focus:outline-none text-sm md:text-base"
           >
             <option disabled value="">
               Select Sort Option
@@ -112,7 +114,7 @@ const FilterForm = ({
               type="number"
               min={1}
               {...methods.register("min")}
-              className="mt-1 block w-full px-3 py-1 md:py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#5059d6] focus:border-[#5059d6] focus:outline-none text-sm md:text-base"
+              className="mt-1 block w-full px-3 py-1 md:py-2  border-gray-300 rounded-md shadow-sm focus:ring-priColor focus:border-priColor border-[1.5px] focus:outline-none text-sm md:text-base"
               placeholder="Min"
             />
           </div>
@@ -128,7 +130,7 @@ const FilterForm = ({
               type="number"
               min={1}
               {...methods.register("max")}
-              className="mt-1 block w-full px-3 py-1 md:py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#5059d6] focus:border-[#5059d6] focus:outline-none text-sm md:text-base"
+              className="mt-1 block w-full px-3 py-1 md:py-2  border-gray-300 rounded-md shadow-sm focus:ring-priColor focus:border-priColor border-[1.5px] focus:outline-none text-sm md:text-base"
               placeholder="Max"
             />
           </div>

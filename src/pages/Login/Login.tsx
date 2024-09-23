@@ -28,6 +28,7 @@ const Login = () => {
       if (!loggedUser) {
         dispatch(logout());
       } else {
+        toast("You are already logged in");
         navigate(from);
       }
     }
