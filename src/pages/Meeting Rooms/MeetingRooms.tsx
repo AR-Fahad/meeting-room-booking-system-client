@@ -57,8 +57,8 @@ const MeetingRooms = () => {
       {!isLoading && !isFetching ? (
         <>
           {data?.length === 0 ? (
-            <div>
-              <h3 className="text-center text-black text-opacity-50 font-bold text-xl lg:text-2xl mt-10 min-h-screen">
+            <div className="min-h-[50vh] flex justify-center items-center">
+              <h3 className="text-black text-opacity-50 font-bold text-xl lg:text-2xl mt-10">
                 There is no room available
               </h3>
             </div>

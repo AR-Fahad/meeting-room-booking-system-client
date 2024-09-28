@@ -81,7 +81,6 @@ const RoomBooking = () => {
           ?.slots?.map(({ value }: { value: any }) => value),
         room: id as string,
         user: user?._id as string,
-        isConfirmed: "confirmed",
       },
       slotsTime: method
         ?.watch()

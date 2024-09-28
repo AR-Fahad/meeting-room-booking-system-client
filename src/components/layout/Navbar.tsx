@@ -32,7 +32,7 @@ const Navbar = () => {
     }
   }
 
-  console.log(user);
+  // console.log(user);
 
   const navLinks = (
     <>

@@ -14,6 +14,7 @@ import { toast } from "sonner";
 const paymentMethod = [
   { value: "stripe", label: "Stripe" },
   { value: "aamarPay", label: "aamarPay" },
+  { value: "later", label: "Later" },
 ];
 
 const Checkout = () => {
@@ -36,13 +37,13 @@ const Checkout = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const { payment } = data;
     setBtnOn(true);
-    if (payment === "aamarPay") {
-      toast.info("aamarPay payment system implement soon");
-      setBtnOn(false);
-      return;
-    }
 
     try {
+      if (payment === "aamarPay") {
+        toast.info("aamarPay payment system implement soon");
+        setBtnOn(false);
+        return;
+      }
       if (payment === "stripe") {
         if (!stripe || !elements) {
           toast.error("Something went wrong");
@@ -68,8 +69,15 @@ const Checkout = () => {
           setBtnOn(false);
           return;
         }
-        await createBooking(bookingInfo);
-        toast.success("Booking confirmed successfully");
+        await createBooking({ ...bookingInfo, isConfirmed: "confirmed" });
+        toast.success("Booking successful (confirmed)");
+        setBtnOn(false);
+        dispatch(clearCheckout());
+      }
+
+      if (payment === "later") {
+        await createBooking({ ...bookingInfo, isConfirmed: "unconfirmed" });
+        toast.success("Booking successful (unconfirmed)");
         setBtnOn(false);
         dispatch(clearCheckout());
       }
