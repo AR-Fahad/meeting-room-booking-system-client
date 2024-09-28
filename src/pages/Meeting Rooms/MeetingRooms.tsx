@@ -23,6 +23,8 @@ const MeetingRooms = () => {
     searchTerm: "",
     max: "",
     min: "",
+    maxCap: "",
+    minCap: "",
     sort: "",
   });
 

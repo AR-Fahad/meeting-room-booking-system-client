@@ -12,6 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import baseApi from "./api/baseApi";
+import checkSlice from "./features/checkout/checkSlice";
 
 const authPersistConfig = {
   key: "auth",
@@ -23,6 +24,7 @@ const persistedAuth = persistReducer(authPersistConfig, authSlice.reducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuth,
+    checkout: checkSlice.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   //   devTools: false,

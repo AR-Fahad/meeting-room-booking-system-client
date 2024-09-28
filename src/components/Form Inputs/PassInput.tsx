@@ -9,10 +9,18 @@ type TPass = {
   placeholder: string;
   control?: Control<FieldValues, any>;
   label: string;
+  disable?: boolean;
   forget?: boolean;
 };
 
-const PassInput = ({ name, label, placeholder, forget, control }: TPass) => {
+const PassInput = ({
+  name,
+  label,
+  placeholder,
+  forget,
+  disable,
+  control,
+}: TPass) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -43,6 +51,7 @@ const PassInput = ({ name, label, placeholder, forget, control }: TPass) => {
             style={{ width: "100%" }}
             placeholder={placeholder}
             variant="standard"
+            disabled={disable}
             required
             InputProps={{
               endAdornment: (

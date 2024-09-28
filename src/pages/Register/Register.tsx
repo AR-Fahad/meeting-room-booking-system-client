@@ -122,7 +122,7 @@ const Register = () => {
               <span className="text-[#5059d6]">Terms & Condition</span>
             </label>
           </div>
-          <PriButton w disabled={disabled}>
+          <PriButton w disabled={disabled} makeLoading={disabled}>
             {" "}
             {disabled ? "Registering..." : "Register"}
           </PriButton>

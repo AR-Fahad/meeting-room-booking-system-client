@@ -1,4 +1,5 @@
 import App from "@/App";
+import { config } from "@/config/config";
 import AboutUs from "@/pages/About Us/AboutUs";
 import ContactUs from "@/pages/Contact Us/ContactUs";
 import BManagement from "@/pages/Dashboard/Admin/Boooking Management/BManagement";
@@ -13,11 +14,17 @@ import MyBookings from "@/pages/Dashboard/User/MyBookings";
 import ErrorPage from "@/pages/Error Page/ErrorPage";
 import Home from "@/pages/Home/Home";
 import Login from "@/pages/Login/Login";
+import Checkout from "@/pages/Meeting Room Details/Checkout";
 import MRoomDetails from "@/pages/Meeting Room Details/MRoomDetails";
+import RoomBooking from "@/pages/Meeting Room Details/RoomBooking";
 import MeetingRooms from "@/pages/Meeting Rooms/MeetingRooms";
 import Register from "@/pages/Register/Register";
 import ProtectedRoutes from "@/Protected Routes/ProtectedRoutes";
 import { createBrowserRouter } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(config.stripeGatewayKey);
 
 const router = createBrowserRouter([
   {
@@ -35,7 +42,29 @@ const router = createBrowserRouter([
       },
       {
         path: "meeting-rooms/:id",
-        element: <MRoomDetails />,
+        element: (
+          <ProtectedRoutes roles={["user"]}>
+            <MRoomDetails />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/booking/:name/:id",
+        element: (
+          <ProtectedRoutes roles={["user"]}>
+            <RoomBooking />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/checkout",
+        element: (
+          <ProtectedRoutes roles={["user"]}>
+            <Elements stripe={stripePromise}>
+              <Checkout />
+            </Elements>
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "about-us",

@@ -28,7 +28,6 @@ const Login = () => {
       if (!loggedUser) {
         dispatch(logout());
       } else {
-        toast("You are already logged in");
         navigate(from);
       }
     }
@@ -47,7 +46,7 @@ const Login = () => {
       navigate(from);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      console.log(err);
+      // console.log(err);
       toast.error(
         err?.data?.errorMessages[0]?.message || "Something went wrong",
         {
@@ -84,7 +83,7 @@ const Login = () => {
             placeholder="Enter your password"
             forget
           />
-          <PriButton w disabled={disabled}>
+          <PriButton w disabled={disabled} makeLoading={disabled}>
             {disabled ? "Logging in..." : "Login"}
           </PriButton>
         </form>

@@ -9,6 +9,7 @@ type TInput = {
   defaultValue?: string | number;
   control?: Control<FieldValues, any>;
   name: string;
+  disable?: boolean;
   required?: boolean;
 };
 
@@ -19,6 +20,7 @@ const TextInput = ({
   placeholder,
   required,
   control,
+  disable,
   defaultValue,
 }: TInput) => {
   return (
@@ -34,6 +36,7 @@ const TextInput = ({
             type={type}
             required={required}
             variant="standard"
+            disabled={disable}
             placeholder={placeholder}
             style={{ width: "100%" }}
           />

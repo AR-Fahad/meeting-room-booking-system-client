@@ -5,7 +5,14 @@ import SecButton from "../buttons/SecButton";
 import { Button } from "../ui/button";
 import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
 
-type TFilter = { searchTerm: string; max: string; min: string; sort: string };
+type TFilter = {
+  searchTerm: string;
+  max: string;
+  min: string;
+  sort: string;
+  minCap: string;
+  maxCap: string;
+};
 
 const FilterForm = ({
   methods,
@@ -115,7 +122,7 @@ const FilterForm = ({
               min={1}
               {...methods.register("min")}
               className="mt-1 block w-full px-3 py-1 md:py-2  border-gray-300 rounded-md shadow-sm focus:ring-priColor focus:border-priColor border-[1.5px] focus:outline-none text-sm md:text-base"
-              placeholder="Min"
+              placeholder="Min price"
             />
           </div>
           <div>
@@ -131,7 +138,41 @@ const FilterForm = ({
               min={1}
               {...methods.register("max")}
               className="mt-1 block w-full px-3 py-1 md:py-2  border-gray-300 rounded-md shadow-sm focus:ring-priColor focus:border-priColor border-[1.5px] focus:outline-none text-sm md:text-base"
-              placeholder="Max"
+              placeholder="Max price"
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label
+              htmlFor="minCap"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Min Capacity
+            </label>
+            <input
+              id="minCap"
+              type="number"
+              min={1}
+              {...methods.register("minCap")}
+              className="mt-1 block w-full px-3 py-1 md:py-2  border-gray-300 rounded-md shadow-sm focus:ring-priColor focus:border-priColor border-[1.5px] focus:outline-none text-sm md:text-base"
+              placeholder="Min capacity"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="maxCap"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Max Capacity
+            </label>
+            <input
+              id="maxCap"
+              type="number"
+              min={1}
+              {...methods.register("maxCap")}
+              className="mt-1 block w-full px-3 py-1 md:py-2  border-gray-300 rounded-md shadow-sm focus:ring-priColor focus:border-priColor border-[1.5px] focus:outline-none text-sm md:text-base"
+              placeholder="Max capacity"
             />
           </div>
         </div>

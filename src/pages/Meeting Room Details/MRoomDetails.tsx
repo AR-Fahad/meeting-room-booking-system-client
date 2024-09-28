@@ -94,7 +94,9 @@ const MRoomDetails = () => {
                   </div>
                 </div>
               </div>
-              <PriButton>Book Now</PriButton>
+              <Link to={`/booking/${room?.name}/${room?._id}`}>
+                <PriButton>Book Now</PriButton>
+              </Link>
             </div>
           </div>
           <div className="p-3 md:p-5 lg:p-10">

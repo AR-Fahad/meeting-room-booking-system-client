@@ -25,9 +25,7 @@ const ProtectedRoutes = ({
     dispatch(logout());
     toast.error("Authentication failed. Please login");
     return <Navigate to="/login" state={{ from: location }} />;
-  }
-
-  if (!roles.includes(user?.role)) {
+  } else if (!roles.includes(user?.role)) {
     toast.error("You have no access to this route");
     return <Navigate to="/" />;
   }

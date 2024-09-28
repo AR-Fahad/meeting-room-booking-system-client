@@ -1,8 +1,8 @@
-import { TUser } from "@/interfaces/user.interface";
+import { TAuth } from "@/interfaces/user.interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type TAuthState = {
-  user: null | TUser;
+  user: null | TAuth;
   token: "" | string;
 };
 
@@ -30,5 +30,3 @@ export const authSlice = createSlice({
 export const { setUser, logout } = authSlice.actions;
 
 export default authSlice;
-
-// export const selectCurrentAuth = (state: RootState) => state.auth;
