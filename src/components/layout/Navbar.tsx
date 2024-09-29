@@ -82,7 +82,10 @@ const Navbar = () => {
             </DropdownMenuItem>
           )}
           <DropdownMenuItem className="mt-5">
-            <SecButton w onClick={() => dispatch(logout())}>
+            <SecButton
+              className="w-full text-red-600 border-red-600 hover:text-red-600"
+              onClick={() => dispatch(logout())}
+            >
               Logout
             </SecButton>
           </DropdownMenuItem>

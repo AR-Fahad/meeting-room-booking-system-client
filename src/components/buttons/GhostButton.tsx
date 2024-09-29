@@ -6,13 +6,25 @@ type TButtonProps = {
   onClick?: () => void;
   ref?: LegacyRef<HTMLButtonElement>;
   disabled?: boolean;
+  sm?: boolean;
+  className?: string;
 };
 
-const GhostButton = ({ children, onClick, disabled, ref }: TButtonProps) => {
+const GhostButton = ({
+  children,
+  onClick,
+  disabled,
+  ref,
+  sm,
+  className,
+}: TButtonProps) => {
   return (
     <Button
-      className="h-8 md:h-9"
+      className={`h-8 md:h-9 disabled:opacity-50 ${
+        className && `${className}`
+      }`}
       variant="ghost"
+      size={sm ? "sm" : "default"}
       onClick={onClick}
       disabled={disabled}
       ref={ref}

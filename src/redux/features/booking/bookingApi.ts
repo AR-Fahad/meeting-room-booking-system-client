@@ -8,7 +8,15 @@ const bookingApi = baseApi.injectEndpoints({
         method: "POST",
         body: bookingInfo,
       }),
-      invalidatesTags: ["userBookings"],
+      invalidatesTags: ["userBookings", "bookings"],
+    }),
+    updateBooking: builder.mutation({
+      query: ({ updateInfo, id }) => ({
+        url: `/bookings/${id}`,
+        method: "PUT",
+        body: updateInfo,
+      }),
+      invalidatesTags: ["userBookings", "bookings"],
     }),
     getUserBookings: builder.query({
       query: () => ({
@@ -17,7 +25,19 @@ const bookingApi = baseApi.injectEndpoints({
       }),
       providesTags: [{ type: "userBookings" }],
     }),
+    getAllBookings: builder.query({
+      query: () => ({
+        url: "/bookings",
+        method: "GET",
+      }),
+      providesTags: [{ type: "bookings" }],
+    }),
   }),
 });
 
-export const { useCreateBookingMutation, useGetUserBookingsQuery } = bookingApi;
+export const {
+  useCreateBookingMutation,
+  useGetUserBookingsQuery,
+  useGetAllBookingsQuery,
+  useUpdateBookingMutation,
+} = bookingApi;

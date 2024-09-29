@@ -93,7 +93,9 @@ const MeetingRooms = () => {
                         </p>
                         <div>
                           <Link to={`/meeting-rooms/${room?._id}`}>
-                            <SecButton w>Show Details</SecButton>
+                            <SecButton className="w-full">
+                              Show Details
+                            </SecButton>
                           </Link>
                         </div>
                       </div>

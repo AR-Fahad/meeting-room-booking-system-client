@@ -35,18 +35,19 @@ const Checkout = () => {
   } = useAppSelector((state) => state?.checkout);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading("Creating booking");
     const { payment } = data;
     setBtnOn(true);
 
     try {
       if (payment === "aamarPay") {
-        toast.info("aamarPay payment system implement soon");
+        toast.info("aamarPay payment system implement soon", { id: toastId });
         setBtnOn(false);
         return;
       }
       if (payment === "stripe") {
         if (!stripe || !elements) {
-          toast.error("Something went wrong");
+          toast.error("Something went wrong", { id: toastId });
           setBtnOn(false);
           return;
         }
@@ -54,7 +55,7 @@ const Checkout = () => {
         const cardElement = elements.getElement(CardElement);
 
         if (!cardElement) {
-          toast.error("Card element not found.");
+          toast.error("Card element not found.", { id: toastId });
           setBtnOn(false);
           return;
         }
@@ -65,19 +66,19 @@ const Checkout = () => {
         });
 
         if (error) {
-          toast.error(error?.message || "An error occurred");
+          toast.error(error?.message || "An error occurred", { id: toastId });
           setBtnOn(false);
           return;
         }
-        await createBooking({ ...bookingInfo, isConfirmed: "confirmed" });
-        toast.success("Booking successful (confirmed)");
+        await createBooking({ ...bookingInfo, isPaid: true });
+        toast.success("Booking successful with payment", { id: toastId });
         setBtnOn(false);
         dispatch(clearCheckout());
       }
 
       if (payment === "later") {
-        await createBooking({ ...bookingInfo, isConfirmed: "unconfirmed" });
-        toast.success("Booking successful (unconfirmed)");
+        await createBooking(bookingInfo);
+        toast.success("Booking successful without payment", { id: toastId });
         setBtnOn(false);
         dispatch(clearCheckout());
       }
@@ -86,7 +87,8 @@ const Checkout = () => {
       toast.error(
         err?.data?.errorMessages[0]?.message ||
           err?.message ||
-          "Something went wrong"
+          "Something went wrong",
+        { id: toastId }
       );
       setBtnOn(false);
     }
@@ -193,9 +195,7 @@ const Checkout = () => {
             </div>
           )}
           <div>
-            <PriButton makeLoading={btnOn} disabled={btnOn}>
-              {btnOn ? "Confirm Booking..." : "Confirm Payment"}
-            </PriButton>
+            <PriButton disabled={btnOn}>Confirm Payment</PriButton>
           </div>
         </form>
       </div>

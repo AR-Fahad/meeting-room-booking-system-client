@@ -122,9 +122,8 @@ const Register = () => {
               <span className="text-[#5059d6]">Terms & Condition</span>
             </label>
           </div>
-          <PriButton w disabled={disabled} makeLoading={disabled}>
-            {" "}
-            {disabled ? "Registering..." : "Register"}
+          <PriButton disabled={disabled} className="w-full">
+            Register
           </PriButton>
         </form>
         <p className="text-black text-opacity-70">

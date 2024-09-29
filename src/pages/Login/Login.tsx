@@ -48,7 +48,9 @@ const Login = () => {
     } catch (err: any) {
       // console.log(err);
       toast.error(
-        err?.data?.errorMessages[0]?.message || "Something went wrong",
+        err?.data?.errorMessages[0]?.message ||
+          err?.message ||
+          "Something went wrong",
         {
           id: toastId,
         }
@@ -83,8 +85,8 @@ const Login = () => {
             placeholder="Enter your password"
             forget
           />
-          <PriButton w disabled={disabled} makeLoading={disabled}>
-            {disabled ? "Logging in..." : "Login"}
+          <PriButton disabled={disabled} className="w-full">
+            Login
           </PriButton>
         </form>
         <p className="text-black text-opacity-70">

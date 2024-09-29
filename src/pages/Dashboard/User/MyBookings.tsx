@@ -26,7 +26,7 @@ const MyBookings = () => {
           </h3>
           <div>
             <Table className="w-full table-auto md:table-fixed">
-              {bookings?.length && (
+              {bookings?.length !== 0 && (
                 <TableCaption>A list of your bookings.</TableCaption>
               )}
               <TableHeader className="hidden md:table-header-group">
@@ -39,7 +39,7 @@ const MyBookings = () => {
                 </TableRow>
               </TableHeader>
 
-              {!bookings?.length ? (
+              {bookings?.length === 0 ? (
                 <TableCaption className="text-black text-opacity-50 font-bold text-xl lg:text-2xl mt-10">
                   You have no bookings
                 </TableCaption>

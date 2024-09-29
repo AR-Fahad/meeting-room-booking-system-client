@@ -316,7 +316,11 @@ const Sidebar = ({
             } else {
               return (
                 <>
-                  <ListItem disablePadding sx={{ display: "block" }}>
+                  <ListItem
+                    key={index}
+                    disablePadding
+                    sx={{ display: "block" }}
+                  >
                     <ListItemButton
                       onClick={() => {
                         handleClick(index);
@@ -390,7 +394,7 @@ const Sidebar = ({
                     <List>
                       {menu?.child?.map((ch) => (
                         <ListItem
-                          key={index}
+                          key={ch?.text}
                           disablePadding
                           sx={{ display: "block" }}
                         >

@@ -6,9 +6,10 @@ export type TBooking = {
   _id?: string;
   room: TRoom;
   slots: TSlot[];
-  user: TUser;
+  user: TUser | string;
   date: string;
   totalAmount?: number;
   isConfirmed?: string;
   isDeleted?: boolean;
+  isPaid?: boolean;
 };
