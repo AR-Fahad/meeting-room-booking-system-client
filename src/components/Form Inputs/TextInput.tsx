@@ -5,12 +5,15 @@ import { Control, Controller, FieldValues } from "react-hook-form";
 type TInput = {
   label?: string;
   placeholder?: string;
-  type: "email" | "text";
+  type: "email" | "text" | "number";
   defaultValue?: string | number;
   control?: Control<FieldValues, any>;
+  min?: number;
+  max?: number;
   name: string;
   disable?: boolean;
   required?: boolean;
+  integer?: boolean;
 };
 
 const TextInput = ({
@@ -21,7 +24,10 @@ const TextInput = ({
   required,
   control,
   disable,
+  min,
+  max,
   defaultValue,
+  integer,
 }: TInput) => {
   return (
     <div>
@@ -29,9 +35,26 @@ const TextInput = ({
         name={name}
         control={control}
         defaultValue={defaultValue || ""}
-        render={({ field }) => (
+        render={({ field: { onChange, ...restFields } }) => (
           <TextField
-            {...field}
+            {...restFields}
+            onChange={(e) => {
+              const newValue = e?.target?.value;
+              const numericValue = Number(newValue);
+              if (type === "number") {
+                if (
+                  (!Number.isInteger(numericValue) && integer) ||
+                  (max && max < numericValue) ||
+                  (min && min > numericValue)
+                ) {
+                  onChange("");
+                } else {
+                  onChange(numericValue);
+                }
+              } else {
+                onChange(newValue);
+              }
+            }}
             label={label}
             type={type}
             required={required}

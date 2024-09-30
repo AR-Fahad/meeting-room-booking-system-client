@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LegacyRef } from "react";
 import { Button } from "../ui/button";
 
 type TButtonProps = {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   ref?: LegacyRef<HTMLButtonElement>;
   disabled?: boolean;
   sm?: boolean;

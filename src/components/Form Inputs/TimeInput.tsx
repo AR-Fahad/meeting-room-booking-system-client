@@ -31,6 +31,7 @@ const TimeInput = ({
           render={({ field: { onChange, value, onBlur } }) => (
             <TimePicker
               label={label}
+              disabled={disable}
               value={value ? dayjs(value) : null} // Convert string to Dayjs object
               onChange={(newTime) => {
                 const formattedTime = newTime ? newTime.format("HH:mm") : "";

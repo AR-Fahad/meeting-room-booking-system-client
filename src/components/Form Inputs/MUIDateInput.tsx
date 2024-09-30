@@ -37,6 +37,7 @@ const MUIDateInput = ({
           defaultValue="" // Default value
           render={({ field: { onChange, value, onBlur } }) => (
             <DatePicker
+              disabled={disable}
               label={label}
               value={value ? dayjs(value) : null} // Convert string to Dayjs object
               onChange={(newDate) => {

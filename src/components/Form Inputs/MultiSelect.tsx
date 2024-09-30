@@ -8,10 +8,11 @@ type TAutocompleteInput = {
   placeholder?: string;
   control: Control<FieldValues, any>;
   name: string;
-  options: any[]; // Array of options to display
+  options: { title: string; value: string | number }[]; // Array of options to display
   getOptionLabel: (option: any) => string; // Function to get option label
   required?: boolean;
-  defaultValue?: any[];
+  valuesWithTitles?: boolean;
+  defaultValue?: { title: string; value: string | number }[];
   disable?: boolean;
 };
 
@@ -23,8 +24,9 @@ const MultiSelect = ({
   options,
   getOptionLabel,
   disable,
-  required = false,
-  defaultValue = [],
+  required,
+  valuesWithTitles,
+  defaultValue,
 }: TAutocompleteInput) => {
   //   const mappedOptions = options.map((op) => op?.value);
   return (
@@ -42,10 +44,16 @@ const MultiSelect = ({
               multiple
               options={availableOptions}
               getOptionLabel={getOptionLabel}
+              disabled={disable}
               value={value || []}
               onChange={(_, newValue) => {
                 const uniqueValues = Array.from(new Set(newValue));
-                onChange(uniqueValues); // Update the form value
+                if (!valuesWithTitles) {
+                  const mainValues = uniqueValues?.map((data) => data?.value);
+                  onChange(mainValues);
+                } else {
+                  onChange(uniqueValues);
+                }
               }}
               onBlur={onBlur}
               isOptionEqualToValue={(option, value) =>
@@ -56,8 +64,8 @@ const MultiSelect = ({
                   {...params}
                   label={label}
                   variant="standard"
+                  required={required && value?.length === 0}
                   placeholder={placeholder}
-                  required={required}
                   disabled={disable}
                 />
               )}

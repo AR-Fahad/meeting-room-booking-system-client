@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "../ui/button";
 
 type TButtonProps = {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   disabled?: boolean;
   className?: string;
 };

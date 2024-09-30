@@ -1,0 +1,21 @@
+.swal-confirm-button {
+  padding: 5px 12px;
+  font-size: 16px;
+}
+
+.swal-cancel-button {
+  padding: 5px 12px;
+  font-size: 16px;
+}
+
+.swal2-container {
+  z-index: 9999 !important;
+}
+
+.swal2-popup {
+  max-width: 320px;
+}
+
+.swal-title-small {
+  font-size: 24px; /* Smaller title font size */
+}

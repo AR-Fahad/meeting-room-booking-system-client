@@ -18,8 +18,13 @@ import { MdEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef } from "react";
-import { useUpdateBookingMutation } from "@/redux/features/booking/bookingApi";
+import {
+  useDeleteBookingMutation,
+  useUpdateBookingMutation,
+} from "@/redux/features/booking/bookingApi";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
+import "../../../../styles/toast/toast.css";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -41,6 +46,42 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
   const { control, handleSubmit, watch } = useForm();
   const [disabled, setDisable] = useState(false);
   const [updateBooking] = useUpdateBookingMutation();
+  const [deleteBooking] = useDeleteBookingMutation();
+
+  const confirmDelete = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      customClass: {
+        confirmButton: "swal-confirm-button",
+        cancelButton: "swal-cancel-button",
+        container: "swal2-container",
+        popup: "swal2-popup",
+        title: "swal-title-small",
+      },
+    }).then(async (result) => {
+      if (result?.isConfirmed) {
+        const toastId = toast.loading("Deleting booking");
+        try {
+          await deleteBooking(booking?._id);
+          toast?.success("Booking deleted successfully", {
+            id: toastId,
+          });
+        } catch (err: any) {
+          toast.error(
+            err?.data?.errorMessages[0]?.message ||
+              err?.message ||
+              "Something went wrong",
+            {
+              id: toastId,
+            }
+          );
+        }
+      }
+    });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -163,13 +204,16 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
           <strong>Action:</strong>{" "}
           <div>
             {dialogContainer}
-            <GhostButton className="hover:text-red-600" sm>
+            <GhostButton
+              onClick={confirmDelete}
+              className="hover:text-red-600"
+              sm
+            >
               <RiDeleteBin5Fill className="w-5 h-5" />
             </GhostButton>
           </div>
         </div>
       </div>
-
       {/* Desktop view */}
       <TableCell className="hidden md:table-cell font-medium">
         {booking?.room?.name}
@@ -203,7 +247,11 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
       <TableCell className={`hidden md:table-cell text-center`}>
         <div>
           {dialogContainer}
-          <GhostButton className="hover:text-red-600" sm>
+          <GhostButton
+            onClick={confirmDelete}
+            className="hover:text-red-600"
+            sm
+          >
             <RiDeleteBin5Fill className="w-5 h-5" />
           </GhostButton>
         </div>

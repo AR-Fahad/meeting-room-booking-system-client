@@ -139,6 +139,7 @@ const RoomBooking = () => {
                     getOptionLabel={(options) => options.title}
                     options={multiOptions}
                     control={method.control}
+                    valuesWithTitles={true}
                     name="slots"
                     label="Select Available Time"
                     disable={!method.watch()?.date && !multiOptions?.length}
