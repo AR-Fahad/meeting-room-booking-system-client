@@ -12,6 +12,25 @@ const roomApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["rooms", "room"],
     }),
+    updateRoom: builder.mutation({
+      query: ({ updateInfo, id }) => {
+        return {
+          url: `/rooms/${id}`,
+          method: "PUT",
+          body: updateInfo,
+        };
+      },
+      invalidatesTags: ["rooms", "room"],
+    }),
+    deleteRoom: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/rooms/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["rooms", "room"],
+    }),
     getAllRooms: builder.query({
       query: (queries) => {
         const params = new URLSearchParams();
@@ -41,5 +60,10 @@ const roomApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllRoomsQuery, useGetRoomQuery, useCreateRoomMutation } =
-  roomApi;
+export const {
+  useGetAllRoomsQuery,
+  useGetRoomQuery,
+  useCreateRoomMutation,
+  useUpdateRoomMutation,
+  useDeleteRoomMutation,
+} = roomApi;

@@ -3,32 +3,12 @@ import PriButton from "@/components/buttons/PriButton";
 import ImagesUpload from "@/components/Form Inputs/ImagesUpload";
 import MultiSelect from "@/components/Form Inputs/MultiSelect";
 import TextInput from "@/components/Form Inputs/TextInput";
+import { amenities } from "@/constants/room.constants";
 import { useCreateRoomMutation } from "@/redux/features/room/roomApi";
 import uploadImageToCloudinary from "@/utils/uploadImageToCloudinary";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-const options = [
-  "Adequate Seating",
-  "Table Space",
-  "Projector & Screen",
-  "Whiteboard & Markers",
-  "Video Conferencing Facilities",
-  "On-Site Support Staff",
-  "Audio & visual Equipment",
-  "Wi-Fi access",
-  "Power Outlets",
-  "Natural Light",
-  "Temperature Control",
-  "Flip Charts",
-  "Storage Space",
-  "Water and Coffee Station",
-  "Emergency Exit",
-].map((option) => ({
-  title: option,
-  value: option,
-}));
 
 const CreateRoom = () => {
   const { control, handleSubmit, reset } = useForm();
@@ -124,7 +104,7 @@ const CreateRoom = () => {
             control={control}
             name="amenities"
             label="Amenities"
-            options={options}
+            options={amenities}
             valuesWithTitles
             getOptionLabel={(option) => option?.title}
             required
@@ -140,7 +120,7 @@ const CreateRoom = () => {
           </div>
         </div>
         <div className="my-10">
-          <PriButton disabled={btnDisable}>Create Booking</PriButton>
+          <PriButton disabled={btnDisable}>Create Room</PriButton>
         </div>
       </form>
     </div>

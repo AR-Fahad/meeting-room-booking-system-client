@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       {
         path: "meeting-rooms/:id",
         element: (
-          <ProtectedRoutes roles={["user"]}>
+          <ProtectedRoutes path="/meeting-rooms" roles={["user"]}>
             <MRoomDetails />
           </ProtectedRoutes>
         ),

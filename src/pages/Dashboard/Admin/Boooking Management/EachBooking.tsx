@@ -162,7 +162,7 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
   );
 
   return (
-    <TableRow key={booking?._id} className="block mb-4 md:table-row lg:mb-0">
+    <TableRow className="block mb-4 md:table-row lg:mb-0">
       {/* Mobile view */}
       <div className="md:hidden block p-4 border rounded-lg shadow-md bg-white">
         <div className="mb-2">
@@ -245,7 +245,7 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
         {booking?.isConfirmed}
       </TableCell>
       <TableCell className={`hidden md:table-cell text-center`}>
-        <div>
+        <div className="text-center">
           {dialogContainer}
           <GhostButton
             onClick={confirmDelete}

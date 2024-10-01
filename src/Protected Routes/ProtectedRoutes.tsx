@@ -1,3 +1,4 @@
+import { TAuth } from "@/interfaces/user.interface";
 import { logout } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { verifyToken } from "@/utils/verifyToken";
@@ -8,26 +9,27 @@ import { toast } from "sonner";
 const ProtectedRoutes = ({
   children,
   roles,
+  path,
 }: {
   children: ReactNode;
   roles: string[];
+  path?: string;
 }) => {
   const { token } = useAppSelector((state) => state.auth);
-  let user;
   const location = useLocation();
   const dispatch = useAppDispatch();
 
-  if (token) {
-    user = verifyToken(token);
-  }
+  const user: TAuth = token ? verifyToken(token) : null;
 
   if (!user) {
     dispatch(logout());
     toast.error("Authentication failed. Please login");
     return <Navigate to="/login" state={{ from: location }} />;
-  } else if (!roles.includes(user?.role)) {
+  }
+
+  if (!roles.includes(user?.role)) {
     toast.error("You have no access to this route");
-    return <Navigate to="/" />;
+    return <Navigate to={path ? path : "/"} />;
   }
 
   return <>{children}</>;
