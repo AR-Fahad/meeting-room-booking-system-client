@@ -25,6 +25,8 @@ import {
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 import "../../../../styles/toast/toast.css";
+import { showError } from "@/utils/showError";
+import { convertTo12HourFormat } from "@/utils/convert24hoursTo12hoursTime";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -65,19 +67,12 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
       if (result?.isConfirmed) {
         const toastId = toast.loading("Deleting booking");
         try {
-          await deleteBooking(booking?._id);
+          await deleteBooking(booking?._id).unwrap();
           toast?.success("Booking deleted successfully", {
             id: toastId,
           });
         } catch (err: any) {
-          toast.error(
-            err?.data?.errorMessages[0]?.message ||
-              err?.message ||
-              "Something went wrong",
-            {
-              id: toastId,
-            }
-          );
+          showError(err, toastId);
         }
       }
     });
@@ -95,19 +90,12 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
       id: booking?._id,
     };
     try {
-      await updateBooking(data);
+      await updateBooking(data).unwrap();
       toast.success("Status updated", { id: toastId });
       setDisable(false);
       setOpen(false);
     } catch (err: any) {
-      toast.error(
-        err?.data?.errorMessages[0]?.message ||
-          err?.message ||
-          "Something went wrong",
-        {
-          id: toastId,
-        }
-      );
+      showError(err, toastId);
       setDisable(false);
     }
   };
@@ -120,10 +108,10 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
         className="hover:text-priColor"
         sm
       >
-        <MdEdit className="w-5 h-5 " />
+        <MdEdit className="w-5 h-5" />
       </GhostButton>
       <Dialog
-        open={open}
+        open={open || disabled}
         TransitionComponent={Transition}
         keepMounted
         onClose={() => setOpen(false)}
@@ -142,7 +130,7 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
               control={control}
               options={options}
               defaultValue={booking?.isConfirmed}
-              disabled={booking?.isConfirmed === "canceled"}
+              disabled={booking?.isConfirmed === "canceled" || disabled}
             />
             <div>
               <PriButton
@@ -177,7 +165,12 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
         <div className="mb-2">
           <strong>Time:</strong>{" "}
           {booking?.slots
-            ?.map((slot) => `${slot?.startTime}-${slot?.endTime}`)
+            ?.map(
+              (slot) =>
+                `${convertTo12HourFormat(
+                  slot?.startTime
+                )}-${convertTo12HourFormat(slot?.endTime)}`
+            )
             .join(", ")}
         </div>
         <div className="mb-2">
@@ -224,7 +217,12 @@ const EachBooking = ({ booking }: { booking: TBooking }) => {
       <TableCell className="hidden md:table-cell">{booking?.date}</TableCell>
       <TableCell className="hidden md:table-cell">
         {booking?.slots
-          ?.map((slot) => `${slot?.startTime}-${slot?.endTime}`)
+          ?.map(
+            (slot) =>
+              `${convertTo12HourFormat(
+                slot?.startTime
+              )}-${convertTo12HourFormat(slot?.endTime)}`
+          )
           .join(", ")}
       </TableCell>
       <TableCell className="hidden md:table-cell">

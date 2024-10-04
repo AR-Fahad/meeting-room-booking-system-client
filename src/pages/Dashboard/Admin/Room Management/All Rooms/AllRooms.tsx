@@ -12,12 +12,12 @@ import EachRoom from "./EachRoom";
 import Loader from "@/components/loader/Loader";
 
 const AllRooms = () => {
-  const { data: res, isFetching, isLoading } = useGetAllRoomsQuery(null);
+  const { data: res, isLoading } = useGetAllRoomsQuery(null);
   const rooms: TRoom[] = res?.data;
 
   return (
     <>
-      {!isFetching && !isLoading && rooms ? (
+      {!isLoading && rooms ? (
         <div>
           <h3 className="text-3xl font-medium my-5 text-priColor">All Rooms</h3>
           <div>

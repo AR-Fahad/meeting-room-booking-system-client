@@ -4,6 +4,7 @@ import RadioGroupInput from "@/components/Form Inputs/RadioGroupInput";
 import { useCreateBookingMutation } from "@/redux/features/booking/bookingApi";
 import { clearCheckout } from "@/redux/features/checkout/checkSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { showError } from "@/utils/showError";
 import { FormLabel } from "@mui/material";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
@@ -70,26 +71,20 @@ const Checkout = () => {
           setBtnOn(false);
           return;
         }
-        await createBooking({ ...bookingInfo, isPaid: true });
+        await createBooking({ ...bookingInfo, isPaid: true }).unwrap();
         toast.success("Booking successful with payment", { id: toastId });
         setBtnOn(false);
         dispatch(clearCheckout());
       }
 
       if (payment === "later") {
-        await createBooking(bookingInfo);
+        await createBooking(bookingInfo).unwrap();
         toast.success("Booking successful without payment", { id: toastId });
         setBtnOn(false);
         dispatch(clearCheckout());
       }
     } catch (err: any) {
-      // console.log(err);
-      toast.error(
-        err?.data?.errorMessages[0]?.message ||
-          err?.message ||
-          "Something went wrong",
-        { id: toastId }
-      );
+      showError(err, toastId);
       setBtnOn(false);
     }
   };

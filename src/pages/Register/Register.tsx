@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { verifyToken } from "@/utils/verifyToken";
 import { logout } from "@/redux/features/auth/authSlice";
+import { showError } from "@/utils/showError";
 
 const Register = () => {
   const [disabled, setDisabled] = useState(false);
@@ -49,14 +50,7 @@ const Register = () => {
       navigate("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      toast.error(
-        err?.data?.errorMessages[0]?.message ||
-          err?.message ||
-          "Something went wrong",
-        {
-          id: toastId,
-        }
-      );
+      showError(err, toastId);
       setDisabled(false);
     }
   };
@@ -73,6 +67,7 @@ const Register = () => {
           <TextInput
             type="text"
             name="name"
+            disable={disabled}
             control={control}
             placeholder="Enter your name"
             label="Name"
@@ -82,6 +77,7 @@ const Register = () => {
             type="email"
             name="email"
             control={control}
+            disable={disabled}
             placeholder="Enter your email"
             label="Email"
             required
@@ -90,6 +86,7 @@ const Register = () => {
             type="text"
             name="phone"
             control={control}
+            disable={disabled}
             placeholder="Enter your phone number"
             label="Phone"
             required
@@ -98,6 +95,7 @@ const Register = () => {
             type="text"
             name="address"
             control={control}
+            disable={disabled}
             placeholder="Enter your address"
             label="Address"
             required
@@ -106,6 +104,7 @@ const Register = () => {
           <PassInput
             name="password"
             control={control}
+            disable={disabled}
             label="Password"
             placeholder="Enter the password"
           />
@@ -113,10 +112,17 @@ const Register = () => {
             name="confirmPassword"
             label="Confirm Password"
             control={control}
+            disable={disabled}
             placeholder="Renter the password"
           />
           <div className="flex items-center gap-1">
-            <input type="checkbox" id="terms" {...reg("terms")} required />
+            <input
+              disabled={disabled}
+              type="checkbox"
+              id="terms"
+              {...reg("terms")}
+              required
+            />
             <label htmlFor="terms">
               Accept our{" "}
               <span className="text-[#5059d6]">Terms & Condition</span>

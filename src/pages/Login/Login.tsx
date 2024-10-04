@@ -11,6 +11,7 @@ import { verifyToken } from "@/utils/verifyToken";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout, setUser } from "@/redux/features/auth/authSlice";
 import { useEffect, useState } from "react";
+import { showError } from "@/utils/showError";
 
 const Login = () => {
   const { token } = useAppSelector((state) => state?.auth);
@@ -46,15 +47,7 @@ const Login = () => {
       navigate(from);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // console.log(err);
-      toast.error(
-        err?.data?.errorMessages[0]?.message ||
-          err?.message ||
-          "Something went wrong",
-        {
-          id: toastId,
-        }
-      );
+      showError(err, toastId);
       setDisabled(false);
     }
   };
@@ -74,6 +67,7 @@ const Login = () => {
             name="email"
             placeholder="Enter your email"
             control={control}
+            disable={disabled}
             label="Email"
             required
           />
@@ -82,6 +76,7 @@ const Login = () => {
             name="password"
             label="Password"
             control={control}
+            disable={disabled}
             placeholder="Enter your password"
             forget
           />

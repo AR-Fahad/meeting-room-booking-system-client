@@ -3,5 +3,7 @@ export const convertTo12HourFormat = (time: string) => {
   const ampm = hours >= 12 ? "PM" : "AM";
 
   // Return formatted time
-  return `${hours % 12 || 12}:${minutes < 10 ? "0" + minutes : minutes}${ampm}`;
+  return `${hours % 12 || 12}:${
+    minutes < 10 ? "0" + minutes : minutes
+  } ${ampm}`;
 };

@@ -29,6 +29,8 @@ const TimeRangePicker = ({
   placeholderStart = "Select start time",
   placeholderEnd = "Select end time",
 }: TTimeRangePicker) => {
+  const today = dayjs();
+  const currentDate = today.format("YYYY-MM-DD");
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -43,7 +45,7 @@ const TimeRangePicker = ({
                 <TimePicker
                   label={labelStart}
                   disabled={disable}
-                  value={value ? dayjs(value) : null}
+                  value={value ? dayjs(`${currentDate}T${value}`) : null}
                   onChange={(newTime) => {
                     const formattedTime = newTime
                       ? newTime.format("HH:mm")
@@ -73,7 +75,7 @@ const TimeRangePicker = ({
                 <TimePicker
                   label={labelEnd}
                   disabled={disable}
-                  value={value ? dayjs(value) : null}
+                  value={value ? dayjs(`${currentDate}T${value}`) : null}
                   onChange={(newTime) => {
                     const formattedTime = newTime
                       ? newTime.format("HH:mm")

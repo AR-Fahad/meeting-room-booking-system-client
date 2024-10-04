@@ -14,12 +14,12 @@ import { useGetAllBookingsQuery } from "@/redux/features/booking/bookingApi";
 import EachBooking from "./EachBooking";
 
 const BManagement = () => {
-  const { data: res, isFetching, isLoading } = useGetAllBookingsQuery(null);
+  const { data: res, isLoading } = useGetAllBookingsQuery(null);
   const bookings: TBooking[] = res?.data;
 
   return (
     <>
-      {!isFetching && !isLoading && bookings ? (
+      {!isLoading && bookings ? (
         <div>
           <h3 className="text-3xl font-medium my-5 text-priColor">
             All Bookings

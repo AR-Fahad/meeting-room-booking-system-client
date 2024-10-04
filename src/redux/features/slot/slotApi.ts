@@ -4,14 +4,33 @@ const slotApi = baseApi.injectEndpoints({
     createSlot: builder.mutation({
       query: (slotInfo) => {
         return {
-          url: "slots",
+          url: "/slots",
           method: "POST",
           body: slotInfo,
         };
       },
-      invalidatesTags: ["slots"],
+      invalidatesTags: ["slots", "allSlots"],
     }),
-    getAllSlots: builder.query({
+    updateSlot: builder.mutation({
+      query: ({ slotId, updateInfo }) => {
+        return {
+          url: `/slots/${slotId}`,
+          method: "PUT",
+          body: updateInfo,
+        };
+      },
+      invalidatesTags: ["slots", "allSlots"],
+    }),
+    deleteSlot: builder.mutation({
+      query: (slotId) => {
+        return {
+          url: `/slots/${slotId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["slots", "allSlots"],
+    }),
+    getAvailableSlots: builder.query({
       query: (queries) => {
         const params = new URLSearchParams();
 
@@ -28,7 +47,30 @@ const slotApi = baseApi.injectEndpoints({
       },
       providesTags: [{ type: "slots" }],
     }),
+    getAllSlots: builder.query({
+      query: (queries) => {
+        const params = new URLSearchParams();
+
+        if (queries) {
+          for (const query in queries) {
+            params.append(query, queries[query]);
+          }
+        }
+        return {
+          url: "/slots",
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: [{ type: "allSlots" }],
+    }),
   }),
 });
 
-export const { useGetAllSlotsQuery, useCreateSlotMutation } = slotApi;
+export const {
+  useGetAvailableSlotsQuery,
+  useCreateSlotMutation,
+  useGetAllSlotsQuery,
+  useDeleteSlotMutation,
+  useUpdateSlotMutation,
+} = slotApi;

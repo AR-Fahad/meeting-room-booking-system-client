@@ -8,7 +8,7 @@ import { TSlot } from "@/interfaces/slot.interface";
 import { TUser } from "@/interfaces/user.interface";
 import { useGetUserQuery } from "@/redux/features/auth/authApi";
 import { setCheckout } from "@/redux/features/checkout/checkSlice";
-import { useGetAllSlotsQuery } from "@/redux/features/slot/slotApi";
+import { useGetAvailableSlotsQuery } from "@/redux/features/slot/slotApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { convertTo12HourFormat } from "@/utils/convert24hoursTo12hoursTime";
 import { Divider } from "@mui/material";
@@ -31,46 +31,67 @@ const RoomBooking = () => {
     data: slotRes,
     isLoading: isSlotLoad,
     isFetching: isSlotFetch,
-  } = useGetAllSlotsQuery({
+  } = useGetAvailableSlotsQuery({
     roomId: id,
-    date: method?.watch()?.bookingDate || "",
   });
-  const slots: TSlot[] = slotRes?.data;
+
+  const {
+    data: slotRes2,
+    isLoading: isSlotLoad2,
+    isFetching: isSlotFetch2,
+  } = useGetAvailableSlotsQuery({
+    roomId: id,
+    date: method?.watch()?.date || "",
+  });
+
+  const slotsWithoutDate: TSlot[] = slotRes?.data;
+
+  const availableDates: (string | undefined)[] | null =
+    slotsWithoutDate && !isSlotFetch && !isSlotLoad
+      ? slotsWithoutDate?.map((slot) => {
+          return slot?.date;
+        })
+      : [];
+
+  const slotsWithDate: TSlot[] = slotRes2?.data;
 
   if (
-    (!isSlotFetch && !isSlotLoad && !slots) ||
+    (!isSlotFetch &&
+      !isSlotLoad &&
+      slotsWithoutDate &&
+      !slotsWithoutDate?.length) ||
+    (!isSlotFetch2 && !isSlotLoad2 && !slotsWithDate) ||
     (!isUserLoad && !isUserFetch && !user)
   ) {
     navigate("/meeting-rooms");
   }
 
-  const availableDates: string[] = [];
-  const multiOptions: any[] = [];
-
-  slots?.forEach((slot) => {
-    const option = {
-      title: `${convertTo12HourFormat(slot?.startTime)}-${convertTo12HourFormat(
-        slot?.endTime
-      )}`,
-      value: slot?._id,
-    };
-    if (!availableDates.includes(slot?.date)) {
-      availableDates.push(slot?.date);
-    }
-    if (!multiOptions.includes(option) && method.watch()?.date) {
-      multiOptions.push(option);
-    }
-  });
+  const multiOptions: any[] =
+    !isSlotFetch &&
+    !isSlotFetch2 &&
+    slotsWithoutDate &&
+    slotsWithDate &&
+    method?.watch()?.date
+      ? slotsWithDate?.map((slot) => ({
+          title: `${convertTo12HourFormat(
+            slot?.startTime
+          )}-${convertTo12HourFormat(slot?.endTime)}`,
+          value: slot?._id,
+        }))
+      : [];
 
   let checkout: TCheckout;
 
   if (
-    !isSlotFetch &&
-    !isSlotLoad &&
+    !isSlotLoad2 &&
     !isUserLoad &&
+    !isUserLoad &&
+    !isSlotFetch &&
+    !isSlotFetch2 &&
     !isUserFetch &&
     user &&
-    slots &&
+    slotsWithoutDate &&
+    slotsWithDate &&
     method?.watch()?.slots?.length &&
     name
   ) {
@@ -89,15 +110,17 @@ const RoomBooking = () => {
         ?.watch()
         ?.slots?.map(({ title }: { title: any }) => title)
         ?.join(", "),
-      pricePerSlot: slots[0]?.room?.pricePerSlot,
-      totalCost: method?.watch()?.slots?.length * slots[0]?.room?.pricePerSlot,
+      pricePerSlot: slotsWithoutDate[0]?.room?.pricePerSlot,
+      totalCost:
+        method?.watch()?.slots?.length *
+        slotsWithoutDate[0]?.room?.pricePerSlot,
     };
     // console.log(checkout);
   }
 
   return (
     <>
-      {!isSlotFetch && !isSlotLoad && !isUserFetch && !isUserLoad ? (
+      {!isSlotLoad && !isSlotLoad2 && !isUserLoad ? (
         <div className="mt-5">
           <h3 className="font-semibold text-3xl text-center">Booking</h3>
           <p className="text-center">
@@ -145,7 +168,10 @@ const RoomBooking = () => {
                     valuesWithTitles={true}
                     name="slots"
                     label="Select Available Time"
-                    disable={!method.watch()?.date && !multiOptions?.length}
+                    disable={
+                      (!method.watch()?.date && !multiOptions?.length) ||
+                      isSlotFetch2
+                    }
                   />
                 </div>
               </div>

@@ -6,6 +6,7 @@ import TimeRangePicker from "@/components/Form Inputs/TimeRangePicker";
 import { TRoom } from "@/interfaces/room.interface";
 import { useGetAllRoomsQuery } from "@/redux/features/room/roomApi";
 import { useCreateSlotMutation } from "@/redux/features/slot/slotApi";
+import { showError } from "@/utils/showError";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -32,19 +33,12 @@ const CreateSlot = () => {
     setBtnDisable(true);
     const toastId = toast.loading("Creating slot");
     try {
-      await createSlot(data);
+      await createSlot(data).unwrap();
       reset();
       toast.success("Slot created successfully", { id: toastId });
       setBtnDisable(false);
     } catch (err: any) {
-      toast.error(
-        err?.data?.errorMessages[0]?.message ||
-          err?.message ||
-          "Something went wrong",
-        {
-          id: toastId,
-        }
-      );
+      showError(err, toastId);
       setBtnDisable(false);
     }
   };
@@ -59,7 +53,7 @@ const CreateSlot = () => {
             name="room"
             control={control}
             options={roomOptions}
-            disabled={isFetching || isLoading}
+            disabled={isFetching || isLoading || btnDisable}
             required
           />
           <SelectInput
@@ -67,14 +61,21 @@ const CreateSlot = () => {
             name="durationPerSlot"
             control={control}
             options={durationOptions}
-            disabled={isFetching || isLoading}
+            disabled={isFetching || isLoading || btnDisable}
             required
           />
 
-          <MUIDateInput name="date" label="Date" control={control} required />
+          <MUIDateInput
+            name="date"
+            disable={btnDisable}
+            label="Date"
+            control={control}
+            required
+          />
 
           <TimeRangePicker
             control={control}
+            disable={btnDisable}
             required
             startName="startTime"
             endName="endTime"

@@ -12,7 +12,8 @@ type TDatePickerInput = {
   name: string;
   required?: boolean;
   disable?: boolean;
-  availableDates?: string[];
+  availableDates?: (string | undefined)[] | null;
+  defaultValue?: string;
 };
 
 const formatDate = (date: any): string => {
@@ -27,6 +28,7 @@ const MUIDateInput = ({
   placeholder,
   disable,
   availableDates,
+  defaultValue,
 }: TDatePickerInput) => {
   return (
     <div>
@@ -34,7 +36,7 @@ const MUIDateInput = ({
         <Controller
           name={name}
           control={control}
-          defaultValue="" // Default value
+          defaultValue={defaultValue ? defaultValue : ""}
           render={({ field: { onChange, value, onBlur } }) => (
             <DatePicker
               disabled={disable}

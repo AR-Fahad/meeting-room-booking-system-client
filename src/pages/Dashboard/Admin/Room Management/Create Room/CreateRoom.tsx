@@ -5,6 +5,7 @@ import MultiSelect from "@/components/Form Inputs/MultiSelect";
 import TextInput from "@/components/Form Inputs/TextInput";
 import { amenities } from "@/constants/room.constants";
 import { useCreateRoomMutation } from "@/redux/features/room/roomApi";
+import { showError } from "@/utils/showError";
 import uploadImageToCloudinary from "@/utils/uploadImageToCloudinary";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -36,19 +37,12 @@ const CreateRoom = () => {
         amenities: amenities?.map((amenity: any) => amenity?.value),
         image,
       };
-      await createRoom(roomInfo);
+      await createRoom(roomInfo).unwrap();
       reset();
       toast.success("Room created successfully", { id: toastId });
       setBtnDisable(false);
     } catch (err: any) {
-      toast.error(
-        err?.data?.errorMessages[0]?.message ||
-          err?.message ||
-          "Something went wrong",
-        {
-          id: toastId,
-        }
-      );
+      showError(err, toastId);
       setBtnDisable(false);
     }
   };
@@ -61,6 +55,7 @@ const CreateRoom = () => {
           <TextInput
             type="text"
             control={control}
+            disable={btnDisable}
             name="name"
             label="Name"
             required
@@ -70,6 +65,7 @@ const CreateRoom = () => {
             control={control}
             name="roomNo"
             label="Room No"
+            disable={btnDisable}
             integer
             min={1}
             required
@@ -79,6 +75,7 @@ const CreateRoom = () => {
             control={control}
             name="floorNo"
             label="Floor No"
+            disable={btnDisable}
             integer
             min={1}
             required
@@ -88,6 +85,7 @@ const CreateRoom = () => {
             control={control}
             name="capacity"
             label="Capacity"
+            disable={btnDisable}
             integer
             min={1}
             required
@@ -97,6 +95,7 @@ const CreateRoom = () => {
             control={control}
             name="pricePerSlot"
             label="Price Per Slot"
+            disable={btnDisable}
             min={1}
             required
           />
@@ -105,6 +104,7 @@ const CreateRoom = () => {
             name="amenities"
             label="Amenities"
             options={amenities}
+            disable={btnDisable}
             valuesWithTitles
             getOptionLabel={(option) => option?.title}
             required

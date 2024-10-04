@@ -1,7 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import GhostButton from "@/components/buttons/GhostButton";
+import PriButton from "@/components/buttons/PriButton";
+import MUIDateInput from "@/components/Form Inputs/MUIDateInput";
+import TimeRangePicker from "@/components/Form Inputs/TimeRangePicker";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { TRoom } from "@/interfaces/room.interface";
+import { TSlot } from "@/interfaces/slot.interface";
+import {
+  useDeleteSlotMutation,
+  useUpdateSlotMutation,
+} from "@/redux/features/slot/slotApi";
+import { convertTo12HourFormat } from "@/utils/convert24hoursTo12hoursTime";
+import { showError } from "@/utils/showError";
 import {
   Dialog,
   DialogActions,
@@ -9,23 +18,13 @@ import {
   DialogTitle,
   Slide,
 } from "@mui/material";
-import React, { forwardRef, useState } from "react";
+import { TransitionProps } from "@mui/material/transitions";
+import { forwardRef, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import "../../../../../styles/toast/toast.css";
-import { TransitionProps } from "@mui/material/transitions";
-import PriButton from "@/components/buttons/PriButton";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import TextInput from "@/components/Form Inputs/TextInput";
-import MultiSelect from "@/components/Form Inputs/MultiSelect";
-import { amenities } from "@/constants/room.constants";
-import {
-  useDeleteRoomMutation,
-  useUpdateRoomMutation,
-} from "@/redux/features/room/roomApi";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
-import { showError } from "@/utils/showError";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -36,38 +35,28 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const EachRoom = ({ room }: { room: TRoom }) => {
+const EachSlot = ({ slot }: { slot: TSlot }) => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisable] = useState(false);
   const defaultValues = JSON.stringify({
-    name: room?.name,
-    roomNo: room?.roomNo,
-    floorNo: room?.floorNo,
-    capacity: room?.capacity,
-    pricePerSlot: room?.pricePerSlot,
-    amenities: room?.amenities?.map((amenity) => ({
-      title: amenity,
-      value: amenity,
-    })),
+    date: slot?.date,
+    startTime: slot?.startTime,
+    endTime: slot?.endTime,
   });
-
-  const [updateRoom] = useUpdateRoomMutation();
-  const [deleteRoom] = useDeleteRoomMutation();
-  const { control, handleSubmit, watch } = useForm();
+  const { control, watch, handleSubmit } = useForm();
+  const [deleteSlot] = useDeleteSlotMutation();
+  const [updateSlot] = useUpdateSlotMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setDisable(true);
-    const toastId = toast.loading("Updating room");
-    const { amenities: options, ...restData } = data;
-
-    const amenities = options?.map((option: any) => option.value);
-
+    const toastId = toast.loading("Updating slot");
+    const updateInfo = {
+      ...data,
+      room: slot?.room?._id,
+    };
     try {
-      await updateRoom({
-        updateInfo: { ...restData, amenities },
-        id: room?._id,
-      }).unwrap();
-      toast.success("Room updated", { id: toastId });
+      await updateSlot({ slotId: slot?._id, updateInfo }).unwrap();
+      toast.success("Slot updated", { id: toastId });
       setDisable(false);
       setOpen(false);
     } catch (err: any) {
@@ -91,10 +80,10 @@ const EachRoom = ({ room }: { room: TRoom }) => {
       },
     }).then(async (result) => {
       if (result?.isConfirmed) {
-        const toastId = toast.loading("Deleting room");
+        const toastId = toast.loading("Deleting slot");
         try {
-          await deleteRoom(room?._id).unwrap();
-          toast?.success("Room deleted successfully", {
+          await deleteSlot(slot?._id).unwrap();
+          toast?.success("Slot deleted successfully", {
             id: toastId,
           });
         } catch (err: any) {
@@ -108,6 +97,7 @@ const EachRoom = ({ room }: { room: TRoom }) => {
     <>
       <GhostButton
         onClick={() => setOpen(true)}
+        disabled={slot?.isBooked}
         className="hover:text-priColor"
         sm
       >
@@ -130,80 +120,35 @@ const EachRoom = ({ room }: { room: TRoom }) => {
         <DialogActions>
           <GhostButton onClick={() => setOpen(false)}>X</GhostButton>
         </DialogActions>
-        <DialogTitle>Update Room</DialogTitle>
+        <DialogTitle>Update Slot</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              <TextInput
-                type="text"
+            <div className="grid grid-cols-1 gap-5">
+              <MUIDateInput
+                defaultValue={slot?.date}
+                name="date"
+                label="Date"
                 control={control}
-                defaultValue={room?.name}
                 disable={disabled}
-                name="name"
-                label="Name"
                 required
               />
-              <TextInput
-                type="number"
+
+              <TimeRangePicker
+                defaultValue={[slot?.startTime, slot?.endTime]}
                 control={control}
-                defaultValue={room?.roomNo}
                 disable={disabled}
-                name="roomNo"
-                label="Room No"
-                integer
-                min={1}
                 required
-              />
-              <TextInput
-                type="number"
-                control={control}
-                name="floorNo"
-                label="Floor No"
-                defaultValue={room?.floorNo}
-                disable={disabled}
-                integer
-                min={1}
-                required
-              />
-              <TextInput
-                type="number"
-                control={control}
-                name="capacity"
-                label="Capacity"
-                defaultValue={room?.capacity}
-                disable={disabled}
-                integer
-                min={1}
-                required
-              />
-              <TextInput
-                type="number"
-                control={control}
-                name="pricePerSlot"
-                label="Price Per Slot"
-                defaultValue={room?.pricePerSlot}
-                disable={disabled}
-                min={1}
-                required
-              />
-              <MultiSelect
-                control={control}
-                name="amenities"
-                label="Amenities"
-                options={amenities}
-                disable={disabled}
-                valuesWithTitles
-                getOptionLabel={(option) => option?.title}
-                defaultValue={room?.amenities?.map((amenity) => ({
-                  title: amenity,
-                  value: amenity,
-                }))}
-                required
+                startName="startTime"
+                endName="endTime"
               />
             </div>
             <div className="my-10">
               <PriButton
-                disabled={JSON.stringify(watch()) === defaultValues || disabled}
+                disabled={
+                  JSON.stringify(watch()) === defaultValues ||
+                  disabled ||
+                  slot?.isBooked
+                }
               >
                 Update Changes
               </PriButton>
@@ -213,24 +158,36 @@ const EachRoom = ({ room }: { room: TRoom }) => {
       </Dialog>
     </>
   );
+
   return (
     <TableRow className="block mb-4 md:table-row lg:mb-0">
       {/* Mobile view */}
       <div className="md:hidden block p-4 border rounded-lg shadow-md bg-white">
         <div className="mb-2">
-          <strong>Room Name:</strong> {room?.name}
+          <strong>Room Name:</strong> {slot?.room?.name}
         </div>
         <div className="mb-2">
-          <strong>Room No:</strong> {room?.roomNo}
+          <strong>Room No:</strong> {slot?.room?.roomNo}
         </div>
         <div className="mb-2">
-          <strong>Floor No:</strong> {room?.floorNo}
+          <strong>Date:</strong> {slot?.date}
         </div>
         <div className="mb-2">
-          <strong>Capacity:</strong> {room?.capacity}
+          <strong>Period:</strong>{" "}
+          {`${convertTo12HourFormat(slot?.startTime)}-${convertTo12HourFormat(
+            slot?.endTime
+          )}`}
         </div>
         <div className="mb-2">
-          <strong>Price Per Slot:</strong> ${room?.pricePerSlot}
+          <strong>Price:</strong> ${slot?.room?.pricePerSlot}
+        </div>
+        <div className="mb-2">
+          <strong>Status:</strong>{" "}
+          <span
+            className={`${slot?.isBooked ? "text-green-600" : "text-red-600"}`}
+          >
+            {slot?.isBooked ? "Booked" : "Not Booked"}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <strong>Action:</strong>{" "}
@@ -248,14 +205,28 @@ const EachRoom = ({ room }: { room: TRoom }) => {
       </div>
       {/* Desktop view */}
       <TableCell className="hidden md:table-cell font-medium">
-        {room?.name}
+        {slot?.room?.name}
       </TableCell>
-      <TableCell className="hidden md:table-cell">{room?.roomNo}</TableCell>
-      <TableCell className="hidden md:table-cell">{room?.floorNo}</TableCell>
-      <TableCell className="hidden md:table-cell">{room?.capacity}</TableCell>
       <TableCell className="hidden md:table-cell">
-        ${room?.pricePerSlot}
+        {slot?.room?.roomNo}
       </TableCell>
+      <TableCell className="hidden md:table-cell">{slot?.date}</TableCell>
+      <TableCell className="hidden md:table-cell">
+        {`${convertTo12HourFormat(slot?.startTime)}-${convertTo12HourFormat(
+          slot?.endTime
+        )}`}
+      </TableCell>
+      <TableCell className="hidden md:table-cell">
+        ${slot?.room?.pricePerSlot}
+      </TableCell>
+      <TableCell
+        className={`hidden md:table-cell ${
+          slot?.isBooked ? "text-green-600" : "text-red-600"
+        }`}
+      >
+        {slot?.isBooked ? "Booked" : "Not Booked"}
+      </TableCell>
+
       <TableCell className={`hidden md:table-cell text-center`}>
         <div>
           {dialogContainer}
@@ -272,4 +243,4 @@ const EachRoom = ({ room }: { room: TRoom }) => {
   );
 };
 
-export default EachRoom;
+export default EachSlot;

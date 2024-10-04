@@ -10,16 +10,17 @@ import {
 } from "@/components/ui/table";
 import { TBooking } from "@/interfaces/booking.interface";
 import { useGetUserBookingsQuery } from "@/redux/features/booking/bookingApi";
+import { convertTo12HourFormat } from "@/utils/convert24hoursTo12hoursTime";
 
 const MyBookings = () => {
-  const { data: res, isLoading, isFetching } = useGetUserBookingsQuery(null);
+  const { data: res, isLoading } = useGetUserBookingsQuery(null);
   const bookings: TBooking[] = res?.data;
 
   // console.log(bookings);
 
   return (
     <>
-      {!isFetching && !isLoading && bookings ? (
+      {!isLoading && bookings ? (
         <div>
           <h3 className="text-3xl font-medium my-5 text-priColor">
             My Bookings
@@ -62,7 +63,10 @@ const MyBookings = () => {
                           <strong>Time:</strong>{" "}
                           {booking?.slots
                             ?.map(
-                              (slot) => `${slot?.startTime}-${slot?.endTime}`
+                              (slot) =>
+                                `${convertTo12HourFormat(
+                                  slot?.startTime
+                                )}-${convertTo12HourFormat(slot?.endTime)}`
                             )
                             .join(", ")}
                         </div>
@@ -72,7 +76,7 @@ const MyBookings = () => {
                         <div>
                           <strong>Status:</strong>{" "}
                           <span
-                            className={`font-semibold ${
+                            className={`${
                               booking?.isConfirmed === "confirmed"
                                 ? "text-green-600"
                                 : "text-orange-600"
@@ -92,7 +96,12 @@ const MyBookings = () => {
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         {booking?.slots
-                          ?.map((slot) => `${slot?.startTime}-${slot?.endTime}`)
+                          ?.map(
+                            (slot) =>
+                              `${convertTo12HourFormat(
+                                slot?.startTime
+                              )}-${convertTo12HourFormat(slot?.endTime)}`
+                          )
                           .join(", ")}
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
