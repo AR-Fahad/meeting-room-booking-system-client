@@ -10,6 +10,7 @@ import { useGetUserQuery } from "@/redux/features/auth/authApi";
 import { setCheckout } from "@/redux/features/checkout/checkSlice";
 import { useGetAllSlotsQuery } from "@/redux/features/slot/slotApi";
 import { useAppDispatch } from "@/redux/hooks";
+import { convertTo12HourFormat } from "@/utils/convert24hoursTo12hoursTime";
 import { Divider } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -48,7 +49,9 @@ const RoomBooking = () => {
 
   slots?.forEach((slot) => {
     const option = {
-      title: `${slot?.startTime}-${slot?.endTime}`,
+      title: `${convertTo12HourFormat(slot?.startTime)}-${convertTo12HourFormat(
+        slot?.endTime
+      )}`,
       value: slot?._id,
     };
     if (!availableDates.includes(slot?.date)) {

@@ -1,7 +1,16 @@
 import baseApi from "@/redux/api/baseApi";
-
 const slotApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createSlot: builder.mutation({
+      query: (slotInfo) => {
+        return {
+          url: "slots",
+          method: "POST",
+          body: slotInfo,
+        };
+      },
+      invalidatesTags: ["slots"],
+    }),
     getAllSlots: builder.query({
       query: (queries) => {
         const params = new URLSearchParams();
@@ -22,4 +31,4 @@ const slotApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllSlotsQuery } = slotApi;
+export const { useGetAllSlotsQuery, useCreateSlotMutation } = slotApi;

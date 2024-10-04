@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Controller, Control, FieldValues } from "react-hook-form";
 import { MenuItem, Select, InputLabel } from "@mui/material";
 
@@ -5,7 +6,7 @@ type TSelectInput = {
   label: string;
   name: string;
   control: Control<FieldValues, unknown>;
-  options: { value: string | number; label: string }[];
+  options: { value: string | number | undefined; label: string }[];
   defaultValue?: string | number;
   disabled?: boolean;
   required?: boolean;
@@ -46,11 +47,8 @@ const SelectInput = ({
                 </MenuItem>
               )}
               {options.map((option) => (
-                <MenuItem
-                  key={option?.value as string}
-                  value={option.value as string}
-                >
-                  {option.label}
+                <MenuItem key={option?.value as string} value={option?.value}>
+                  {option?.label}
                 </MenuItem>
               ))}
             </Select>
