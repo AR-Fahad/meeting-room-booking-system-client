@@ -1,6 +1,6 @@
-# QMeet Frontend
+# MBooking Frontend
 
-This is the client-side code for **QMeet**, a modern meeting room booking system. QMeet offers an intuitive platform for users to book meeting rooms and various types of rooms on a slot basis. It provides an efficient interface for selecting rooms, choosing time slots, and completing bookings securely.
+This is the client-side code for **MBooking**, a modern meeting room booking system. MBooking offers an intuitive platform for users to book meeting rooms and various types of rooms on a slot basis. It provides an efficient interface for selecting rooms, choosing time slots, and completing bookings securely.
 
 ## Live URL
 
