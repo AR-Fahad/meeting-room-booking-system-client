@@ -24,7 +24,7 @@ Live URL = **[MBooking](https://meeting-room-booking-system-client-one.vercel.ap
 - **TypeScript**: Typed JavaScript for better development scalability.
 - **Redux**: A predictable state container for state management.
 - **RTK Query**: Advanced data fetching and caching for Redux.
-- **Ant Design**: A popular React UI library for fast and flexible UI development.
+- **materialUI**: A popular React UI library for fast and flexible UI development.
 - **Tailwind CSS**: A utility-first CSS framework for custom designs.
 
 ## Installation Guideline
