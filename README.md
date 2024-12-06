@@ -1,30 +1,59 @@
-# React + TypeScript + Vite
+# QMeet Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the client-side code for **QMeet**, a modern meeting room booking system. QMeet offers an intuitive platform for users to book meeting rooms and various types of rooms on a slot basis. It provides an efficient interface for selecting rooms, choosing time slots, and completing bookings securely.
 
-Currently, two official plugins are available:
+## Live URL
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Live URL = **[MBooking](https://meeting-room-booking-system-client-one.vercel.app)**
 
-## Expanding the ESLint configuration
+## Features 🌟
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Intuitive Navigation**: Effortlessly explore and book rooms with ease.
+- **Room Selection**: Browse available meeting rooms with detailed information on each room's capacity, price, and amenities.
+- **Date & Time Scheduling**: Select and book specific time slots for your meetings.
+- **Booking Summary**: Review booking details before finalizing.
+- **Secure Booking Confirmation**: Confirm your bookings securely.
+- **User-Friendly Interface**: Easy-to-use design for both desktop and mobile devices.
+- **Testimonials & Team Section**: View customer testimonials and meet the team behind QMeet.
+- **Payment Options**: Stripe payment option available for secure payment.
 
-- Configure the top-level `parserOptions` property like this:
+## Technology 🧑‍💻
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- **React**: A JavaScript library for building user interfaces.
+- **Vite**: A fast and lean development experience.
+- **TypeScript**: Typed JavaScript for better development scalability.
+- **Redux**: A predictable state container for state management.
+- **RTK Query**: Advanced data fetching and caching for Redux.
+- **Ant Design**: A popular React UI library for fast and flexible UI development.
+- **Tailwind CSS**: A utility-first CSS framework for custom designs.
+
+## Installation Guideline
+
+### Prerequisites
+
+- Node JS
+- MongoDB
+- Git
+
+## Installation
+
+- Clone the repository
+
+```bash
+git clone your_copied_https_git_url folder_name
+cd folder_name
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Install Dependencies
+
+```bash
+npm install
+```
+
+- Setup Environment Variables
+
+```bash
+VITE_STRIPE_GATEWAY_KEY= your stripe gateway key
+VITE_CLOUDINARY_CLOUD_NAME= your cloudinary cloud name
+VITE_CLOUDINARY_UPLOAD_PRESETS= your cloudinary upload preset
+```

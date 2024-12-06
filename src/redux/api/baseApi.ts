@@ -4,7 +4,7 @@ import { RootState } from "../store";
 const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://meeting-room-booking-system-topaz.vercel.app/api",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState)?.auth?.token;

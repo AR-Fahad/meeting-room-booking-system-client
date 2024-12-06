@@ -1,9 +1,11 @@
 import { Skeleton } from "../ui/skeleton";
 
-const MRoomsSkeleton = () => {
+const MRoomsSkeleton = ({ limit = 8 }: { limit?: number }) => {
+  const rooms = Array.from({ length: limit }, (_, i) => i + 1);
+
   return (
     <div className="p-2 md:p-5 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 md:gap-5">
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((room) => (
+      {rooms.map((room) => (
         <div key={room}>
           <div className="p-2 md:p-3 lg:p-4 bg-white border rounded-md shadow-sm">
             <div className="h-24 md:h-36 lg:h-44 rounded-sm">

@@ -1,4 +1,3 @@
-import Heading from "@/components/heading/Heading";
 import logo from "../../assets/images/MBooking.png";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextInput from "@/components/Form Inputs/TextInput";
@@ -62,7 +61,7 @@ const Register = () => {
         </div>
       </Link>
       <div className="mt-10 p-5 border shadow-lg w-[90%] md:[75%] lg:w-[50%] mx-auto space-y-5 rounded-sm">
-        <Heading text="Register an account" />
+        <h3 className="text-2xl font-bold">Register an account</h3>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <TextInput
             type="text"

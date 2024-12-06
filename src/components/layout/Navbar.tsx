@@ -137,46 +137,52 @@ const Navbar = () => {
   );
 
   return (
-    <div className="bg-white shadow-sm py-2 px-5 flex items-center justify-between">
-      <div>
-        <NavLink to="/">
-          <img className="w-20 h-10 md:w-32 md:h-16" src={logo} alt="" />
-        </NavLink>
-      </div>
-      <div className="flex items-center gap-2 md:gap-5">
-        <div className="hidden lg:flex gap-8 items-center font-medium">
-          {navLinks}
+    <div className="mt-[56px] md:mt-[80px]">
+      <div className="bg-white shadow-sm py-2 fixed top-0 w-full max-w-7xl z-50 px-5 flex items-center justify-between">
+        <div>
+          <NavLink to="/">
+            <img className="w-20 h-10 md:w-32 md:h-16" src={logo} alt="" />
+          </NavLink>
         </div>
-        <div className="lg:hidden">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant={"ghost"}>
-                <FiMenu className="w-5 h-5" />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent className="w-48 md:w-56 z-50 bg-slate-50 p-5 shadow-sm border my-3 md:my-6 mx-1">
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>{menuItems}</DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        {user && (
-          <div>
+        <div className="flex items-center gap-2 md:gap-5">
+          <div className="hidden lg:flex gap-8 items-center font-medium">
+            {navLinks}
+          </div>
+          <div className="lg:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant={"ghost"}>
-                  <img className="w-8 h-8 md:w-9 md:h-9" src={profile} alt="" />
+                  <FiMenu className="w-5 h-5" />
                 </Button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="w-48 md:w-56 bg-slate-50 z-50 p-4 shadow-sm border my-3 md:my-6 mx-1">
+              <DropdownMenuContent className="w-48 md:w-56 z-50 bg-slate-50 p-5 shadow-sm border my-3 md:my-6 mx-1">
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>{userMenu}</DropdownMenuGroup>
+                <DropdownMenuGroup>{menuItems}</DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        )}
+          {user && (
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant={"ghost"}>
+                    <img
+                      className="w-8 h-8 md:w-9 md:h-9"
+                      src={profile}
+                      alt=""
+                    />
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="w-48 md:w-56 bg-slate-50 z-50 p-4 shadow-sm border my-3 md:my-6 mx-1">
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>{userMenu}</DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

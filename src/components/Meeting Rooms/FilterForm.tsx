@@ -179,7 +179,7 @@ const FilterForm = ({
 
         {/* Submit Button */}
         <div className="flex gap-2 items-center">
-          <PriButton>Apply Filter</PriButton>
+          <PriButton>Apply</PriButton>
           <SecButton onClick={() => methods.reset()}>Reset</SecButton>
         </div>
       </form>

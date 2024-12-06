@@ -56,10 +56,7 @@ const RoomBooking = () => {
   const slotsWithDate: TSlot[] = slotRes2?.data;
 
   if (
-    (!isSlotFetch &&
-      !isSlotLoad &&
-      slotsWithoutDate &&
-      !slotsWithoutDate?.length) ||
+    (!isSlotFetch && !isSlotLoad && !slotsWithoutDate) ||
     (!isSlotFetch2 && !isSlotLoad2 && !slotsWithDate) ||
     (!isUserLoad && !isUserFetch && !user)
   ) {

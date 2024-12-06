@@ -56,6 +56,7 @@ const CreateRoom = () => {
             type="text"
             control={control}
             disable={btnDisable}
+            placeholder="Enter room name"
             name="name"
             label="Name"
             required
@@ -63,6 +64,7 @@ const CreateRoom = () => {
           <TextInput
             type="number"
             control={control}
+            placeholder="Enter room no"
             name="roomNo"
             label="Room No"
             disable={btnDisable}
@@ -73,6 +75,7 @@ const CreateRoom = () => {
           <TextInput
             type="number"
             control={control}
+            placeholder="Enter floor no"
             name="floorNo"
             label="Floor No"
             disable={btnDisable}
@@ -85,6 +88,7 @@ const CreateRoom = () => {
             control={control}
             name="capacity"
             label="Capacity"
+            placeholder="Enter room capacity"
             disable={btnDisable}
             integer
             min={1}
@@ -95,6 +99,7 @@ const CreateRoom = () => {
             control={control}
             name="pricePerSlot"
             label="Price Per Slot"
+            placeholder="Enter room price per slot"
             disable={btnDisable}
             min={1}
             required
@@ -106,6 +111,7 @@ const CreateRoom = () => {
             options={amenities}
             disable={btnDisable}
             valuesWithTitles
+            placeholder="Select room amenities"
             getOptionLabel={(option) => option?.title}
             required
           />

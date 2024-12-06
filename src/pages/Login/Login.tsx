@@ -1,6 +1,5 @@
 import PassInput from "@/components/Form Inputs/PassInput";
 import TextInput from "@/components/Form Inputs/TextInput";
-import Heading from "@/components/heading/Heading";
 import logo from "../../assets/images/MBooking.png";
 import PriButton from "@/components/buttons/PriButton";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -60,7 +59,7 @@ const Login = () => {
         </div>
       </Link>
       <div className="mt-10 p-5 border shadow-lg w-[90%] md:[70%] lg:w-[50%] mx-auto space-y-5 rounded-sm">
-        <Heading text="Login to your account" />
+        <h3 className="text-2xl font-bold">Login to your account</h3>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <TextInput
             type="email"

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Controller, Control, FieldValues } from "react-hook-form";
-import { MenuItem, Select, InputLabel } from "@mui/material";
+import { MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 
 type TSelectInput = {
   label: string;
@@ -23,35 +23,37 @@ const SelectInput = ({
 }: TSelectInput) => {
   return (
     <div>
-      <InputLabel id="demo-simple-select-standard-label">{label}</InputLabel>
       <Controller
         name={name}
         control={control}
         defaultValue={defaultValue || ""}
         render={({ field: { onChange, value } }) => (
           <>
-            <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              variant="standard"
-              value={value || ""}
-              fullWidth={true}
-              onChange={onChange}
-              disabled={disabled}
-              label={label}
-              required={required}
-            >
-              {!defaultValue && (
-                <MenuItem disabled value="">
-                  <em>Select {label}</em>
-                </MenuItem>
-              )}
-              {options.map((option) => (
-                <MenuItem key={option?.value as string} value={option?.value}>
-                  {option?.label}
-                </MenuItem>
-              ))}
-            </Select>
+            <FormControl variant="standard" sx={{ width: "100%" }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                {label}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={value || ""}
+                fullWidth={true}
+                onChange={onChange}
+                disabled={disabled}
+                required={required}
+              >
+                {!defaultValue && (
+                  <MenuItem disabled value="">
+                    <em>Select {label}</em>
+                  </MenuItem>
+                )}
+                {options.map((option) => (
+                  <MenuItem key={option?.value as string} value={option?.value}>
+                    {option?.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </>
         )}
       />
